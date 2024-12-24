@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Leave Request</title>
+    <link rel="stylesheet" href="Employee leave request form.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Leave Request Form</h2>
+
+        <!-- Employee Leave Request Form -->
+        <div id="employeeForm">
+            <h3>Submit Leave Request</h3>
+            <div class="form-group">
+                <label>Employee Name:</label>
+                <input type="text" id="empName" required>
+            </div>
+            <div class="form-group">
+                <label>Leave Type:</label>
+                <select id="leaveType" required>
+                    <option value="">Select Leave Type</option>
+                    <option value="sick">Sick Leave</option>
+                    <option value="vacation">Vacation Leave</option>
+                    <option value="personal">Personal Leave</option>
+                    <option value="maternity">Maternity Leave</option>
+                    <option value="paternity">Paternity Leave</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Start Date:</label>
+                <input type="date" id="startDate" required>
+            </div>
+            <div class="form-group">
+                <label>End Date:</label>
+                <input type="date" id="endDate" required>
+            </div>
+            <div class="form-group">
+                <label>Reason:</label>
+                <textarea id="reason" required></textarea>
+            </div>
+            <button class="btn btn-submit" onclick="submitLeave()">Submit Request</button>
+        </div>
+    </div>
+
+    <script src="Employee leave request form.js"></script>
+</body>
+</html>
+
+
+/* General Styling */
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 90%;
+    margin: 50px auto;
+    padding: 50px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h3 {
+    margin-bottom: 15px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[type="text"], input[type="date"], textarea, select {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+textarea {
+    height: 100px;
+}
+
+select {
+    height: 38px;
+}
+
+.btn {
+    padding: 8px 15px;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+    border-radius: 4px;
+}
+
+.btn-submit {
+    background-color: #4CAF50;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: #45a049;
+}
+
+.leave-request {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+    background: #f9f9f9;
+    border-radius: 4px;
+}
+
+.status-pending {
+    color: #ff9800;
+}
+
+.status-approved {
+    color: #4CAF50;
+}
+
+.status-rejected {
+    color: #f44336;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* HR Dashboard styling */
+#leaveRequests {
+    margin-top: 20px;
+}
+
+.leave-request {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+    background: #f9f9f9;
+    border-radius: 4px;
+}
+
+.leave-request button {
+    margin-top: 10px;
+}
+
+/* Styling for Leave Type field */
+select#leaveType {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    color: #333;
+    border-radius: 4px;
+}
+
+input[type="text"], input[type="date"], textarea, select {
+    font-size: 14px;
+    color: #333;
+    padding: 10px;
+}
+
+/* Hover effects for buttons */
+button:hover {
+    opacity: 0.9;
+}
+
+button:focus {
+    outline: none;
+}
+
+
+JAVA SCRIPT CODE
+
+// Initialize local storage if empty
+if (!localStorage.getItem('leaveRequests')) {
+    localStorage.setItem('leaveRequests', JSON.stringify([]));
+}
+
+// Submit leave request (for employee)
+function submitLeave() {
+    const empName = document.getElementById('empName').value;
+    const leaveType = document.getElementById('leaveType').value;
+    const startDate = document.getElementById('startDate').value;
+    const endDate = document.getElementById('endDate').value;
+    const reason = document.getElementById('reason').value;
+
+    // Check if all fields are filled out
+    if (!empName || !leaveType || !startDate || !endDate || !reason) {
+        alert('Please fill all fields');
+        return;
+    }
+
+    // Create leave request object
+    const leaveRequest = {
+        id: Date.now(),
+        empName,
+        leaveType,
+        startDate,
+        endDate,
+        reason,
+        status: 'pending',
+        submittedDate: new Date().toLocaleDateString() // Backticks start here: `${new Date().toLocaleDateString()}` // Backticks end here
+    };
+
+    // Store leave request in local storage
+    const requests = JSON.parse(localStorage.getItem('leaveRequests'));
+    requests.push(leaveRequest);
+    localStorage.setItem('leaveRequests', JSON.stringify(requests)); // Backticks are not used here, as it's a standard string
+
+    alert('Leave request submitted successfully!');
+    clearForm();
+}
+
+// Clear form (for employee)
+function clearForm() {
+    document.getElementById('empName').value = '';
+    document.getElementById('leaveType').value = '';
+    document.getElementById('startDate').value = '';
+    document.getElementById('endDate').value = '';
+    document.getElementById('reason').value = '';
+}
